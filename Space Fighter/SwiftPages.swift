@@ -106,13 +106,11 @@ public class SwiftPages: UIView {
             self.addSubview(self.containerView)
             
             //Add the constraints to the containerView.
-            if #available(iOS 9.0, *) {
-                let horizontalConstraint = self.containerView.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor)
-                let verticalConstraint = self.containerView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor)
-                let widthConstraint = self.containerView.widthAnchor.constraintEqualToAnchor(self.widthAnchor)
-                let heightConstraint = self.containerView.heightAnchor.constraintEqualToAnchor(self.heightAnchor)
-                NSLayoutConstraint.activateConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-            }
+            let horizontalConstraint = self.containerView.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor)
+            let verticalConstraint = self.containerView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor)
+            let widthConstraint = self.containerView.widthAnchor.constraintEqualToAnchor(self.widthAnchor)
+            let heightConstraint = self.containerView.heightAnchor.constraintEqualToAnchor(self.heightAnchor)
+            NSLayoutConstraint.activateConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
             
             
             // Set the scrollview
@@ -131,13 +129,13 @@ public class SwiftPages: UIView {
             self.containerView.addSubview(self.scrollView)
             
             // Add the constraints to the scrollview.
-            if #available(iOS 9.0, *) {
-                let leadingConstraint = self.scrollView.leadingAnchor.constraintEqualToAnchor(self.containerView.leadingAnchor)
-                let trailingConstraint = self.scrollView.trailingAnchor.constraintEqualToAnchor(self.containerView.trailingAnchor)
-                let topConstraint = self.scrollView.topAnchor.constraintEqualToAnchor(self.containerView.topAnchor)
-                let bottomConstraint = self.scrollView.bottomAnchor.constraintEqualToAnchor(self.containerView.bottomAnchor)
-                NSLayoutConstraint.activateConstraints([leadingConstraint, trailingConstraint, topConstraint, bottomConstraint])
-            }
+            
+            let leadingConstraint = self.scrollView.leadingAnchor.constraintEqualToAnchor(self.containerView.leadingAnchor)
+            let trailingConstraint = self.scrollView.trailingAnchor.constraintEqualToAnchor(self.containerView.trailingAnchor)
+            let topConstraint = self.scrollView.topAnchor.constraintEqualToAnchor(self.containerView.topAnchor)
+            let bottomConstraint = self.scrollView.bottomAnchor.constraintEqualToAnchor(self.containerView.bottomAnchor)
+            NSLayoutConstraint.activateConstraints([leadingConstraint, trailingConstraint, topConstraint, bottomConstraint])
+            
             
             // Set the top bar
             self.topBar = UIView(frame: CGRect(x: 0, y: 0, width: self.containerView.frame.size.width, height: self.topBarHeight))

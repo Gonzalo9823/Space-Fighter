@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class EasyViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class MediumViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var scoresTableView: UITableView!
     
@@ -40,7 +40,7 @@ class EasyViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         scoresTableView.delegate = self
         scoresTableView.dataSource = self
         
-        let firebaseRef = FIRDatabase.database().reference().child("Puntajes").child("Facil")
+        let firebaseRef = FIRDatabase.database().reference().child("Puntajes").child("Intermedio")
         loadingIndicator.startAnimating()
         
         firebaseRef.observeEventType(.ChildAdded, withBlock: { (snapshot) in
@@ -84,10 +84,10 @@ class EasyViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as! EasyTableViewCell
-     
+        let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as! MediumTableViewCell
+        
         let row = indexPath.row
-
+        
         cell.nombreDeJugador.text! = sortedPlayers[row].nameOfPlayer
         cell.nombreDeJugador.textColor = UIColor.whiteColor()
         cell.nombreDeJugador.font = UIFont(name: "VCR OSD Mono", size: 17)
@@ -109,12 +109,12 @@ class EasyViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
 
 
-class EasyTableViewCell: UITableViewCell {
+class MediumTableViewCell: UITableViewCell {
     @IBOutlet weak var nombreDeJugador: UILabel!
     
     @IBOutlet weak var paisDeJugador: UILabel!
     
     @IBOutlet weak var puntajeDeJugador: UILabel!
     
-
+    
 }

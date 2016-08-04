@@ -14,10 +14,27 @@ class BestScoreViewController: UIViewController {
     var buttonTitles : [String] = ["Easy", "Medium", "Hard"]
 
     
+    var preferredLanguages : NSLocale!
+    
+    var espanol = false
+   
     @IBOutlet weak var closeButton: UIButton!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        let pre = NSLocale.preferredLanguages()[0]
+        
+        if (pre.rangeOfString("es") != nil) {
+            espanol = true
+        }
+        
+        if espanol {
+            buttonTitles = ["Facil", "Intermedio", "Dificil"]
+
+        }
+        
         let swiftPagesView : SwiftPages!
         swiftPagesView = SwiftPages(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         self.view.addSubview(swiftPagesView)
@@ -28,6 +45,9 @@ class BestScoreViewController: UIViewController {
         swiftPagesView.setButtonsTextFontAndSize(UIFont(name: "VCR OSD Mono", size: 20)!)
         
         self.view.addSubview(closeButton)
+        
+      
+        
     }
 
     override func didReceiveMemoryWarning() {
