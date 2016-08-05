@@ -208,6 +208,7 @@ class Settings: SKScene {
             
             salcat.text = "Música de fondo hecha por Salcat"
             salcat.fontSize = 20 * scaleRatio
+            salcat.name = "Salcat"
             salcat.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - (150 * scaleRatio))
             addChild(salcat)
         }

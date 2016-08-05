@@ -31,7 +31,7 @@ class BestScoreViewController: UIViewController {
         }
         
         if espanol {
-            buttonTitles = ["Facil", "Intermedio", "Dificil"]
+            buttonTitles = ["Fácil", "Intermedio", "Difícil"]
 
         }
         

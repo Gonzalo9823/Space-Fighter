@@ -537,7 +537,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             canFire = false
         }
         
-        hero.zRotation = getAngle() - halfPie
+        
+        destroyShootOutsideTheScreen()
         
     }
     
@@ -551,6 +552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if touchedNode.name == "adentro" {
                     controllerAdentro.position = location
+                    hero.zRotation = getAngle()
                 }
             }
             
@@ -648,7 +650,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let punto1 = CGVector(point: controllerAfuera.position)
         let punto2 = CGVector(point: controllerAdentro.position)
         let p = punto2 - punto1
-        let angle = atan2(p.dy, p.dx)
+        let angle = atan2(p.dy, p.dx) - CGFloat(M_PI/2)
         return angle
     }
     
@@ -668,7 +670,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         disparo = SKSpriteNode(color: UIColor.yellowColor(), size: CGSize(width: 3, height: 9))
         disparo.position = CGPoint(x: self.frame.width / 2 , y: self.frame.height / 2)
-        disparo.zRotation = getAngle() + halfPie
+        disparo.zRotation = hero.zRotation
         
         
         disparo.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 3, height: 9))
@@ -680,7 +682,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         disparo.physicsBody?.collisionBitMask   = Fisica.none
 
         
-        let angle = CGVector(angle: getAngle())
+        let angle = CGVector(angle: hero.zRotation + halfPie)
         let vector = angle * 800
         print(angle, vector)
         
@@ -820,7 +822,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func loadAd() {
         viewController.add()
-        
+        print("Ah")
     }
     
     func stopBackGroundMusic() {
@@ -865,6 +867,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             lost()
         default:
             print("Ya perdiste")
+        }
+    }
+    
+    func destroyShootOutsideTheScreen() {
+        if disparo?.position.x > self.frame.width {
+            removeFromParent()
+        }
+        
+        else if disparo?.position.y > self.frame.height {
+            removeFromParent()
         }
     }
 }

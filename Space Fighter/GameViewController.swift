@@ -19,7 +19,7 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = MenuScene(size: view.frame.size)
+        let scene = GameScene2(size: view.frame.size)
         // Configure the view.
         let skView = self.view as! SKView
         skView.showsFPS = false
@@ -33,7 +33,7 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
         
         skView.presentScene(scene)
         
-        scene.viewController = self
+       //scene.viewController = self
         
         
         FIRAuth.auth()?.signInAnonymouslyWithCompletion({ (anonymousUser: FIRUser?, error: NSError?) in
@@ -102,6 +102,7 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
     
     func openSalcat() {
         UIApplication.sharedApplication().openURL(NSURL(string: "https://soundcloud.com/salcat98")!)
+        print("Salcat loco")
 
     }
 }
