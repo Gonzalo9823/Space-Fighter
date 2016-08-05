@@ -36,6 +36,8 @@ class Settings: SKScene {
         case Hard = "Hard"
     }
     
+    var salcat: SKLabelNode!
+    
     var currentDificulty: Dificulty = .Medium
     
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -44,7 +46,6 @@ class Settings: SKScene {
     var uploadBestScore: SKSpriteNode!
     
     override func didMoveToView(view: SKView) {
-        
         
         let pre = NSLocale.preferredLanguages()[0]
         
@@ -57,7 +58,7 @@ class Settings: SKScene {
         }
         
         let scaleRatio = self.frame.width / 667
-        
+
         //Subir mejor puntaje
         if espanol {
             uploadBestScore = SKSpriteNode(imageNamed: "subirMejorPuntaje")
@@ -65,7 +66,7 @@ class Settings: SKScene {
             uploadBestScore = SKSpriteNode(imageNamed: "uploadHighScore")
         }
         uploadBestScore.name = "Subir"
-        uploadBestScore.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 60)
+        uploadBestScore.position = CGPoint(x: self.frame.width / 2 - (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
         uploadBestScore.setScale(0.1 * scaleRatio)
         addChild(uploadBestScore)
         
@@ -73,14 +74,16 @@ class Settings: SKScene {
         if espanol {
             backButton = SKSpriteNode(imageNamed: "Atras")
             backButton.name = "Back"
-            backButton.position = CGPoint(x: self.frame.width / 2 - 280, y: self.frame.height - 35)
+            
+           
+            backButton.position = CGPoint(x: self.frame.width / 2 - (280 * scaleRatio), y: self.frame.height / 2 + (160 * scaleRatio))
             backButton.setScale(0.15 * scaleRatio)
             addChild(backButton)
         }
         else {
             backButton = SKSpriteNode(imageNamed: "Back")
             backButton.name = "Back"
-            backButton.position = CGPoint(x: self.frame.width / 2 - 280, y: self.frame.height - 35)
+            backButton.position = CGPoint(x: self.frame.width / 2 - (280 * scaleRatio), y: self.frame.height / 2 + (160 * scaleRatio))
             backButton.setScale(0.15 * scaleRatio)
             addChild(backButton)
         }
@@ -90,14 +93,14 @@ class Settings: SKScene {
                 
                 easy = SKSpriteNode(imageNamed: "FacilApretado")
                 easy.name = "Easy"
-                easy.position = CGPoint(x: self.frame.width / 2 - 191.52, y: self.frame.height / 2 + 30)
+                easy.position = CGPoint(x: self.frame.width / 2 - (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 easy.setScale(0.08 * scaleRatio)
                 addChild(easy)
                 
             } else {
                 easy = SKSpriteNode(imageNamed: "Facil")
                 easy.name = "Easy"
-                easy.position = CGPoint(x: self.frame.width / 2 - 191.52, y: self.frame.height / 2 + 30)
+                easy.position = CGPoint(x: self.frame.width / 2 - (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 easy.setScale(0.08 * scaleRatio)
                 addChild(easy)
             }
@@ -105,14 +108,14 @@ class Settings: SKScene {
             if currentDificulty == .Medium {
                 medium = SKSpriteNode(imageNamed: "IntermedioApretado")
                 medium.name = "Medium"
-                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
+                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + (30 * scaleRatio))
                 medium.setScale(0.08 * scaleRatio)
                 medium.zPosition = 2
                 addChild(medium)
             } else {
                 medium = SKSpriteNode(imageNamed: "Intermedio")
                 medium.name = "Medium"
-                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
+                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + (30 * scaleRatio))
                 medium.setScale(0.08 * scaleRatio)
                 medium.zPosition = 2
                 addChild(medium)
@@ -121,13 +124,13 @@ class Settings: SKScene {
             if currentDificulty == .Hard {
                 hard = SKSpriteNode(imageNamed: "DificilApretado")
                 hard.name = "Hard"
-                hard.position = CGPoint(x: self.frame.width / 2 + 191.52, y: self.frame.height / 2 + 30)
+                hard.position = CGPoint(x: self.frame.width / 2 + (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 hard.setScale(0.08 * scaleRatio)
                 addChild(hard)
             } else {
                 hard = SKSpriteNode(imageNamed: "Dificil")
                 hard.name = "Hard"
-                hard.position = CGPoint(x: self.frame.width / 2 + 191.52, y: self.frame.height / 2 + 30)
+                hard.position = CGPoint(x: self.frame.width / 2 + (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 hard.setScale(0.08 * scaleRatio)
                 addChild(hard)
             }
@@ -138,14 +141,14 @@ class Settings: SKScene {
                 
                 easy = SKSpriteNode(imageNamed: "EasyPressed")
                 easy.name = "Easy"
-                easy.position = CGPoint(x: self.frame.width / 2 - 191.52, y: self.frame.height / 2 + 30)
+                easy.position = CGPoint(x: self.frame.width / 2 - (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 easy.setScale(0.08 * scaleRatio)
                 addChild(easy)
                 
             } else {
                 easy = SKSpriteNode(imageNamed: "Easy")
                 easy.name = "Easy"
-                easy.position = CGPoint(x: self.frame.width / 2 - 191.52, y: self.frame.height / 2 + 30)
+                easy.position = CGPoint(x: self.frame.width / 2 - (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 easy.setScale(0.08 * scaleRatio)
                 addChild(easy)
             }
@@ -153,14 +156,14 @@ class Settings: SKScene {
             if currentDificulty == .Medium {
                 medium = SKSpriteNode(imageNamed: "MediumPressed")
                 medium.name = "Medium"
-                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
+                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + (30 * scaleRatio))
                 medium.setScale(0.08 * scaleRatio)
                 medium.zPosition = 2
                 addChild(medium)
             } else {
                 medium = SKSpriteNode(imageNamed: "Medium")
                 medium.name = "Medium"
-                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 30)
+                medium.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + (30 * scaleRatio))
                 medium.setScale(0.08 * scaleRatio)
                 medium.zPosition = 2
                 addChild(medium)
@@ -169,13 +172,13 @@ class Settings: SKScene {
             if currentDificulty == .Hard {
                 hard = SKSpriteNode(imageNamed: "HardPressed")
                 hard.name = "Hard"
-                hard.position = CGPoint(x: self.frame.width / 2 + 191.52, y: self.frame.height / 2 + 30)
+                hard.position = CGPoint(x: self.frame.width / 2 + (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 hard.setScale(0.08 * scaleRatio)
                 addChild(hard)
             } else {
                 hard = SKSpriteNode(imageNamed: "Hard")
                 hard.name = "Hard"
-                hard.position = CGPoint(x: self.frame.width / 2 + 191.52, y: self.frame.height / 2 + 30)
+                hard.position = CGPoint(x: self.frame.width / 2 + (191.52 * scaleRatio), y: self.frame.height / 2 + (30 * scaleRatio))
                 hard.setScale(0.08 * scaleRatio)
                 addChild(hard)
             }
@@ -184,7 +187,7 @@ class Settings: SKScene {
         if defaults.boolForKey("Musica") {
             musica = SKSpriteNode(imageNamed: "noMusic")
             musica.name = "Music"
-            musica.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 130)
+            musica.position = CGPoint(x: self.frame.width / 2 + (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
             musica.setScale(0.2 * scaleRatio)
             addChild(musica)
             
@@ -194,11 +197,29 @@ class Settings: SKScene {
             
             musica = SKSpriteNode(imageNamed: "music")
             musica.name = "Music"
-            musica.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 130)
+            musica.position = CGPoint(x: self.frame.width / 2 + (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
             musica.setScale(0.2 * scaleRatio)
             addChild(musica)
             
         }
+        
+        if espanol {
+            salcat = SKLabelNode(fontNamed: "VCR OSD Mono")
+            
+            salcat.text = "Música de fondo hecha por Salcat"
+            salcat.fontSize = 20 * scaleRatio
+            salcat.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - (150 * scaleRatio))
+            addChild(salcat)
+        }
+        else {
+            salcat = SKLabelNode(fontNamed: "VCR OSD Mono")
+            salcat.text = "Background music made by Salcat"
+            salcat.fontSize = 20 * scaleRatio
+            salcat.name = "Salcat"
+            salcat.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - (150 * scaleRatio))
+            addChild(salcat)
+        }
+       
     }
     
     
@@ -235,6 +256,10 @@ class Settings: SKScene {
             else if touchedNode.name == "Subir" {
                 let vc = viewController.storyboard?.instantiateViewControllerWithIdentifier("upload")
                 viewController.presentViewController(vc!, animated: true, completion: nil)
+            }
+            
+            else if touchedNode.name == "Salcat" {
+                viewController.openSalcat()
             }
             
             if espanol {
@@ -302,6 +327,5 @@ class Settings: SKScene {
                 }
             }
         }
-        
     }
 }

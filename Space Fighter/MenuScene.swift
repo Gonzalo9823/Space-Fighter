@@ -59,6 +59,9 @@ class MenuScene: SKScene {
         }
         
         let scaleRatio = self.frame.width / 667
+        let scaleRatioPlus = self.frame.width / 736
+        let scaleRatioIpad = self.frame.width / 768
+        print(scaleRatioIpad)
         
         if espanol {
             start = SKSpriteNode(imageNamed: "jugar")
@@ -108,9 +111,9 @@ class MenuScene: SKScene {
         }
         highScoreLabel.horizontalAlignmentMode = .Center
         if espanol {
-            highScoreLabel.fontSize = 35
+            highScoreLabel.fontSize = (35 * scaleRatio)
         } else {
-            highScoreLabel.fontSize = 40
+            highScoreLabel.fontSize = (40 * scaleRatio)
         }
         highScoreLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 5)
         addChild(highScoreLabel)
@@ -128,8 +131,14 @@ class MenuScene: SKScene {
             imagenAyuda.name = "Imagen Ayuda"
             imagenAyuda.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             imagenAyuda.zPosition = 4
-            //imagenAyuda.setScale(0.55 * scaleRatio)
-            imagenAyuda.size = view.frame.size
+            
+            if scaleRatioIpad == 1 {
+                imagenAyuda.size = CGSize(width: 667, height: 375)
+            }
+            
+            else {
+                imagenAyuda.size = view.frame.size
+            }
             imagenAyuda.alpha = 0
             addChild(imagenAyuda)
         }
@@ -139,8 +148,13 @@ class MenuScene: SKScene {
             imagenAyuda.name = "Imagen Ayuda"
             imagenAyuda.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             imagenAyuda.zPosition = 4
-            //imagenAyuda.setScale(0.55 * scaleRatio)
-            imagenAyuda.size = view.frame.size
+            if scaleRatioIpad == 1 {
+                imagenAyuda.size = CGSize(width: 667, height: 375)
+            }
+                
+            else {
+                imagenAyuda.size = view.frame.size
+            }
             imagenAyuda.alpha = 0
             addChild(imagenAyuda)
         }
@@ -152,6 +166,10 @@ class MenuScene: SKScene {
         settings.position = CGPoint(x: self.frame.width / 2 - 60 , y: self.frame.height / 2 - 130)
         settings.setScale(0.1 * scaleRatio)
         addChild(settings)
+        
+        if scaleRatioPlus == 1 {
+            settings.setScale(0.08)
+        }
         
         //Boton de HighScoreMundial
         mundial = SKSpriteNode(imageNamed: "World")

@@ -16,6 +16,7 @@
 		EAA873B21D3445ED00CCB8D5 /* powerUp.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAA873B11D3445ED00CCB8D5 /* powerUp.mp3 */; };
 		EAB36ADE1D53A6B700E656D3 /* MediumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB36ADD1D53A6B700E656D3 /* MediumViewController.swift */; };
 		EAB36AE21D53A8AB00E656D3 /* HardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB36AE11D53A8AB00E656D3 /* HardViewController.swift */; };
+		EAB36AE41D53CFF300E656D3 /* Juegoiphone.wav in Resources */ = {isa = PBXBuildFile; fileRef = EAB36AE31D53CFF300E656D3 /* Juegoiphone.wav */; };
 		EABA0DE21D5145CD00037EB3 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABA0DE11D5145CD00037EB3 /* UploadViewController.swift */; };
 		EADF70DD1D5297DB00F41B16 /* SwiftPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADF70DC1D5297DB00F41B16 /* SwiftPages.swift */; };
 		EAE37D4D1D342E080062981B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE37D4B1D342E080062981B /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		EAA873B11D3445ED00CCB8D5 /* powerUp.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = powerUp.mp3; sourceTree = "<group>"; };
 		EAB36ADD1D53A6B700E656D3 /* MediumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumViewController.swift; sourceTree = "<group>"; };
 		EAB36AE11D53A8AB00E656D3 /* HardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardViewController.swift; sourceTree = "<group>"; };
+		EAB36AE31D53CFF300E656D3 /* Juegoiphone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Juegoiphone.wav; sourceTree = "<group>"; };
 		EABA0DE11D5145CD00037EB3 /* UploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		EADF70DC1D5297DB00F41B16 /* SwiftPages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPages.swift; sourceTree = "<group>"; };
 		EAE37D401D342E080062981B /* Space Fighter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Space Fighter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +108,7 @@
 			children = (
 				EAA873B11D3445ED00CCB8D5 /* powerUp.mp3 */,
 				EAE37D691D342E580062981B /* explsoion.mp3 */,
+				EAB36AE31D53CFF300E656D3 /* Juegoiphone.wav */,
 				EAE37D6A1D342E580062981B /* fireSound.mp3 */,
 				EAE37D6B1D342E580062981B /* backgroundSound.mp3 */,
 				EAE37D6C1D342E580062981B /* MSButtonNode.swift */,
@@ -244,6 +247,7 @@
 				EAE37D701D342E580062981B /* fireSound.mp3 in Resources */,
 				EAE37D711D342E580062981B /* backgroundSound.mp3 in Resources */,
 				EAE37D641D342E460062981B /* Fire.sks in Resources */,
+				EAB36AE41D53CFF300E656D3 /* Juegoiphone.wav in Resources */,
 				EAE37D6F1D342E580062981B /* explsoion.mp3 in Resources */,
 				EAE37D651D342E460062981B /* Smoke.sks in Resources */,
 				EAE37D681D342E4F0062981B /* Assets.xcassets in Resources */,

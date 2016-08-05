@@ -41,6 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var numberOfHits = 0
     var gameOver: SKLabelNode!
     var restartButton: SKSpriteNode!
+    var uploadRecord: SKSpriteNode!
     var timesFire: SKSpriteNode!
     var fireNumber = 0
     var score = 0
@@ -84,11 +85,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         func playBackGroundMusic() {
             
-            let path = NSBundle.mainBundle().pathForResource("backgroundSound.mp3", ofType:nil)!
+            let path = NSBundle.mainBundle().pathForResource("Juegoiphone.wav", ofType:nil)!
             let url = NSURL(fileURLWithPath: path)
             do {
                 let sound = try AVAudioPlayer(contentsOfURL: url)
                 gameMusic = sound
+                sound.numberOfLoops = -1
                 sound.play()
                 
             } catch {
@@ -308,6 +310,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     scene?.view?.presentScene(nextScene, transition: transition)
                     nextScene.viewController = viewController
+                }
+                else if (node.name == "Upload Record") {
+                    let vc = viewController.storyboard?.instantiateViewControllerWithIdentifier("upload")
+                    viewController.presentViewController(vc!, animated: true, completion: nil)
                 }
                 
             }
@@ -744,6 +750,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func updateBestScore(score: Int) {
         
+        func crearaBotonSubirNuevoRecord(idioma: String) {
+            if idioma ==  "Es" {
+                uploadRecord = SKSpriteNode(imageNamed: "subirMejorPuntaje")
+                uploadRecord.name = "Upload Record"
+                uploadRecord.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+                uploadRecord.setScale(0.08)
+                uploadRecord.zPosition = 4
+                addChild(uploadRecord)
+            }
+            else {
+                uploadRecord = SKSpriteNode(imageNamed: "uploadHighScore")
+                uploadRecord.name = "Upload Record"
+                uploadRecord.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+                uploadRecord.setScale(0.08)
+                uploadRecord.zPosition = 4
+                addChild(uploadRecord)
+            }
+        }
+        
         switch currentDificulty {
         case .Easy:
             let actualBestScore = defaults.integerForKey("bestScoreEasy")
@@ -753,8 +778,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameOver.fontColor = UIColor.redColor()
                 if espanol {
                     gameOver.text = "¡Nuevo Record!"
+                    crearaBotonSubirNuevoRecord("Es")
+                    
                 } else {
+                    crearaBotonSubirNuevoRecord("En")
                     gameOver.text = "New Record!"
+
                 }
             }
             
@@ -766,8 +795,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameOver.fontColor = UIColor.redColor()
                 if espanol {
                     gameOver.text = "¡Nuevo Record!"
+                    crearaBotonSubirNuevoRecord("Es")
                 } else {
                     gameOver.text = "New Record!"
+                    crearaBotonSubirNuevoRecord("En")
                 }
             }
         case .Hard:
@@ -778,8 +809,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameOver.fontColor = UIColor.redColor()
                 if espanol {
                     gameOver.text = "¡Nuevo Record!"
+                    crearaBotonSubirNuevoRecord("Es")
                 } else {
                     gameOver.text = "New Record!"
+                    crearaBotonSubirNuevoRecord("En")
                 }
             }
         }

@@ -99,4 +99,9 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
     func interstitialDidDismissScreen(ad: GADInterstitial!) {
         interstitial = createAndLoadInterstitial()
     }
+    
+    func openSalcat() {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://soundcloud.com/salcat98")!)
+
+    }
 }
