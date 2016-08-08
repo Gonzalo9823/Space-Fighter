@@ -45,6 +45,8 @@ class Settings: SKScene {
     
     var uploadBestScore: SKSpriteNode!
     
+    var botonSecreto : SKSpriteNode!
+    
     override func didMoveToView(view: SKView) {
         
         let pre = NSLocale.preferredLanguages()[0]
@@ -58,6 +60,11 @@ class Settings: SKScene {
         }
         
         let scaleRatio = self.frame.width / 667
+        
+        botonSecreto = SKSpriteNode(color: UIColor(red:0.17, green:0.16, blue:0.18, alpha:1.0), size: CGSize(width: 40, height: 40))
+        botonSecreto.position = CGPoint(x: self.frame.width, y: self.frame.height)
+        botonSecreto.name = "Secreto"
+        addChild(botonSecreto)
 
         //Subir mejor puntaje
         if espanol {
@@ -235,6 +242,14 @@ class Settings: SKScene {
                 backButton.alpha = 0.4
                 let transition = SKTransition.fadeWithDuration(0.5)
                 let nextScene = MenuScene(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+            }
+                
+            else if touchedNode.name == "Secreto" {
+                let transition = SKTransition.fadeWithDuration(0.5)
+                let nextScene = GameScene2(size: scene!.size)
                 nextScene.scaleMode = .AspectFill
                 scene?.view?.presentScene(nextScene, transition: transition)
                 nextScene.viewController = viewController

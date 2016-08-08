@@ -33,7 +33,7 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
         
         skView.presentScene(scene)
         
-       //scene.viewController = self
+        scene.viewController = self
         
         
         FIRAuth.auth()?.signInAnonymouslyWithCompletion({ (anonymousUser: FIRUser?, error: NSError?) in
