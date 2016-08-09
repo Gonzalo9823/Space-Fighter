@@ -822,7 +822,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func loadAd() {
         viewController.add()
-        print("Ah")
     }
     
     func stopBackGroundMusic() {

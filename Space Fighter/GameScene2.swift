@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 
 class GameScene2: SKScene, SKPhysicsContactDelegate {
@@ -29,8 +30,16 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     var preferredLanguages : NSLocale!
     var espanol = false
     var meteors = [SKSpriteNode]()
+    var gameMusic: AVAudioPlayer!
     
     var numberOfLifes = 3
+    var alive = true
+    
+    //LOST
+    var gameOver: SKLabelNode!
+    var restartButton: SKSpriteNode!
+    var menuButton: SKSpriteNode!
+
     
     //STARS
     let centralStars = SKEmitterNode(fileNamed: "Stars.sks")!
@@ -67,6 +76,34 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         
         
     }
+    
+    func playBackGroundMusic() {
+        let path = NSBundle.mainBundle().pathForResource("Juegoiphone.wav", ofType:nil)!
+        let url = NSURL(fileURLWithPath: path)
+        do {
+            let sound = try AVAudioPlayer(contentsOfURL: url)
+            gameMusic = sound
+            sound.numberOfLoops = -1
+            sound.play()
+            
+        } catch {
+            // couldn't load file :(
+        }
+    }
+    
+    func stopBackGroundMusic() {
+        let path = NSBundle.mainBundle().pathForResource("Juegoiphone.wav", ofType:nil)!
+        let url = NSURL(fileURLWithPath: path)
+        do {
+            let sound = try AVAudioPlayer(contentsOfURL: url)
+            gameMusic = sound
+            sound.stop()
+            
+        } catch {
+            // couldn't load file :(
+        }
+    }
+    
     func playerCollides() {
         switch numberOfLifes {
         case 3:
@@ -79,6 +116,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             hero.texture = SKTexture(imageNamed: "heroThreeHits")
         case -1:
             hero.texture = SKTexture(imageNamed: "heroDead")
+            lost()
         default:
             print("Ya perdiste")
         }
@@ -86,41 +124,43 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     func createMetor(position: CGPoint) {
         
-        let meteor = SKSpriteNode(texture: meteorAnimation[0])
-        let animateAction = SKAction.animateWithTextures(self.meteorAnimation, timePerFrame: 0.10);
-        let repeatAction = SKAction.repeatActionForever(animateAction)
-        meteor.runAction(repeatAction)
-        
-        meteor.setScale(0.8)
-        meteor.zPosition = 4
-        meteor.name = "meteor"
-        meteor.position = position
-        
-        meteor.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: meteor.size.width, height: meteor.size.height))
-        meteor.physicsBody?.dynamic = true
-        meteor.physicsBody?.affectedByGravity = false
-        
-        meteor.physicsBody?.categoryBitMask    = Fisica.object
-        meteor.physicsBody?.contactTestBitMask = Fisica.player
-        meteor.physicsBody?.collisionBitMask   = Fisica.object
-        
-        meteors.append(meteor)
-        addChild(meteor)
-        
-        // Calculate vector components x and y
-        var dx = hero.position.x - meteor.position.x
-        var dy = hero.position.y - meteor.position.y
-        
-        // Normalize the components
-        let magnitude = sqrt(dx*dx+dy*dy)
-        dx /= magnitude
-        dy /= magnitude
-        
-        // Create a vector in the direction of the bird
-        let vector = CGVectorMake(100*dx, 100*dy)
-        
-        // Apply impulse
-        meteor.physicsBody?.applyImpulse(vector)
+        if alive {
+            let meteor = SKSpriteNode(texture: meteorAnimation[0])
+            let animateAction = SKAction.animateWithTextures(self.meteorAnimation, timePerFrame: 0.10);
+            let repeatAction = SKAction.repeatActionForever(animateAction)
+            meteor.runAction(repeatAction)
+            
+            meteor.setScale(0.8)
+            meteor.zPosition = 4
+            meteor.name = "meteor"
+            meteor.position = position
+            
+            meteor.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: meteor.size.width, height: meteor.size.height))
+            meteor.physicsBody?.dynamic = true
+            meteor.physicsBody?.affectedByGravity = false
+            
+            meteor.physicsBody?.categoryBitMask    = Fisica.object
+            meteor.physicsBody?.contactTestBitMask = Fisica.player
+            meteor.physicsBody?.collisionBitMask   = Fisica.object
+            
+            meteors.append(meteor)
+            addChild(meteor)
+            
+            // Calculate vector components x and y
+            var dx = hero.position.x - meteor.position.x
+            var dy = hero.position.y - meteor.position.y
+            
+            // Normalize the components
+            let magnitude = sqrt(dx*dx+dy*dy)
+            dx /= magnitude
+            dy /= magnitude
+            
+            // Create a vector in the direction of the bird
+            let vector = CGVectorMake(100*dx, 100*dy)
+            
+            // Apply impulse
+            meteor.physicsBody?.applyImpulse(vector)
+        }
         
     }
     
@@ -186,6 +226,8 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     //MARK: Movement functions
     
     override func didMoveToView(view: SKView) {
+        
+        playBackGroundMusic()
         
         physicsWorld.contactDelegate = self
         self.camera = cam
@@ -403,6 +445,44 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 playerCollides()
             }
         }
+    }
+    
+    func lost() {
+        stopBackGroundMusic()
+        alive = false
+        
+        gameOver = SKLabelNode(fontNamed: "VCR OSD Mono")
+        if espanol {
+            gameOver.text = "¡Perdiste!"
+        }
+        else {
+            gameOver.text = "Game Over!"
+        }
+        gameOver.horizontalAlignmentMode = .Center
+        gameOver.fontSize = 50
+        gameOver.zPosition = 5
+        gameOver.position = CGPoint(x: hero.position.x, y: hero.position.y + 50)
+        addChild(gameOver)
+        
+        if espanol {
+            restartButton = SKSpriteNode(imageNamed: "jugarDeNuevo")
+        }
+        else {
+            restartButton = SKSpriteNode(imageNamed: "restart")
+        }
+        
+        restartButton.name = "restart"
+        restartButton.zPosition = 5
+        restartButton.position = CGPoint(x: hero.position.x, y: hero.position.y - 60)
+        restartButton.setScale(0.08)
+        addChild(restartButton)
+        
+        menuButton = SKSpriteNode(imageNamed: "menu")
+        menuButton.zPosition = 5
+        menuButton.name = "menu"
+        menuButton.position = CGPoint(x: hero.position.x, y: hero.position.y - 120)
+        menuButton.setScale(0.08)
+        addChild(menuButton)
     }
 }
 
