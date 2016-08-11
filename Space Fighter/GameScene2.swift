@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 import AVFoundation
 
 
@@ -31,15 +32,25 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     var espanol = false
     var meteors = [SKSpriteNode]()
     var gameMusic: AVAudioPlayer!
+    var compass: SKSpriteNode!
+    var compassNeedle: SKSpriteNode!
+    
+    
+    //Points Part
+    var coin : SKSpriteNode!
+    var pointLabel: SKLabelNode!
+    var points = 0
     
     var numberOfLifes = 3
     var alive = true
     
     //LOST
     var gameOver: SKLabelNode!
+    var diparaALaopcion: SKLabelNode!
     var restartButton: SKSpriteNode!
     var menuButton: SKSpriteNode!
-
+    
+    
     
     //STARS
     let centralStars = SKEmitterNode(fileNamed: "Stars.sks")!
@@ -174,6 +185,46 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func createPoints() {
+        coin = SKSpriteNode(imageNamed: "Coin")
+        coin.setScale(0.5)
+        coin.name = "Coin"
+        
+        
+        coin.physicsBody = SKPhysicsBody(rectangleOfSize: coin.size)
+        coin.physicsBody?.dynamic = true
+        coin.physicsBody?.affectedByGravity = false
+        
+        coin.physicsBody?.categoryBitMask    = Fisica.objectPowerUp
+        coin.physicsBody?.contactTestBitMask = Fisica.player | Fisica.bullets
+        coin.physicsBody?.collisionBitMask   = Fisica.none
+        
+        
+        coin.position = getCoinsPosition()
+        addChild(coin)
+    }
+    
+    func getX(number : CGFloat) -> CGFloat {
+        
+        return cos(number) * hero.position.x + CGFloat.random(-600, 600) * CGFloat(points + 2)
+    }
+    
+    func getY(number : CGFloat) -> CGFloat {
+        
+        return sin(number) * hero.position.y + CGFloat.random(-600, 600) * CGFloat(points + 2)
+    }
+    
+    func getCoinsPosition() -> CGPoint {
+        
+        let degrees = GKRandomSource.sharedRandom().nextIntWithUpperBound(361)
+        let radiants = Double(degrees) * M_PI / 180
+        
+        let x = getX(CGFloat(radiants))
+        let y = getY(CGFloat(radiants))
+        
+        return CGPoint(x: x, y: y)
+    }
+    
     
     func getAngle() -> CGFloat {
         
@@ -288,11 +339,42 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         hero.physicsBody?.affectedByGravity = false
         
         hero.physicsBody?.categoryBitMask    = Fisica.player
-        hero.physicsBody?.contactTestBitMask = Fisica.object
+        hero.physicsBody?.contactTestBitMask = Fisica.object | Fisica.objectPowerUp
         hero.physicsBody?.collisionBitMask   = Fisica.none
         
         
         addChild(hero)
+        createPoints()
+        
+        compass = SKSpriteNode(imageNamed: "CompassAfuera")
+        compass.position = CGPoint(x: (cam.frame.width / 2 + 113) * scaleRatio  , y: (cam.frame.height / 2 + 150) * scaleRatio)
+        compass.setScale(0.2 * scaleRatio)
+        compass.zPosition = 4
+        
+        cam.addChild(compass)
+        
+        compassNeedle = SKSpriteNode(imageNamed: "CompassAdentro")
+        compassNeedle.position = CGPoint(x: (cam.frame.width / 2 + 113) * scaleRatio  , y: (cam.frame.height / 2 + 150) * scaleRatio)
+        compassNeedle.setScale(0.2 * scaleRatio)
+        compassNeedle.zPosition = 4
+        
+        cam.addChild(compassNeedle)
+        
+        
+        pointLabel = SKLabelNode(fontNamed: "VCR OSD Mono")
+        
+        if espanol {
+            pointLabel.text = "Puntos: \(points)"
+            
+        }
+        else {
+            pointLabel.text = "Points: \(points)"
+        }
+        
+        pointLabel.horizontalAlignmentMode = .Right
+        pointLabel.position = CGPoint(x: (cam.frame.width / 2 + 320) * scaleRatio  , y: (cam.frame.height / 2 + 140) * scaleRatio)
+        pointLabel.fontSize = 25 * scaleRatio
+        cam.addChild(pointLabel)
         
         bulletsLabel = SKLabelNode(fontNamed: "VCR OSD Mono")
         
@@ -306,7 +388,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         
         bulletsLabel.horizontalAlignmentMode = .Left
         bulletsLabel.position = CGPoint(x: (cam.frame.width / 2 - 320) * scaleRatio  , y: (cam.frame.height / 2 + 140) * scaleRatio)
-        bulletsLabel.fontSize = 30 * scaleRatio
+        bulletsLabel.fontSize = 25 * scaleRatio
         cam.addChild(bulletsLabel)
         
         var randomDoubleForX : CGFloat!
@@ -321,12 +403,21 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             self.createMetor(CGPoint(x: self.hero.position.x + randomDoubleForX , y: self.hero.position.y + randomDoubleForY))
         }
         
-        let wait = SKAction.waitForDuration(1)
+        let wait = SKAction.waitForDuration(0.8)
         
         let seq = SKAction.sequence([wait,crear])
         
         let repeat5Ever = SKAction.repeatActionForever(seq)
         runAction(repeat5Ever)
+    }
+    
+    func getCoinAngle() -> CGFloat  {
+        let punto1 = CGVector(point: hero.position)
+        let punto2 = CGVector(point: coin.position)
+        
+        let p = punto2 - punto1
+        let angle = atan2(p.dy, p.dx) + CGFloat(M_PI)
+        return angle
     }
     
     func fireBullet() {
@@ -336,6 +427,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             disparo = SKSpriteNode(color: UIColor.yellowColor(), size: CGSize(width: 3, height: 9))
             disparo.position = hero.position
             disparo.zRotation = hero.zRotation
+            disparo.name = "disparo"
             addChild(disparo)
             
             disparo.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 3, height: 9))
@@ -357,8 +449,14 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: NSTimeInterval) {
         cam.position = hero.position
+        print(hero.position)
+        
+        compassNeedle.zRotation = getCoinAngle() + CGFloat(M_PI)
         
         moveBackground()
+        
+        
+        print(coin.position)
         
         if espanol {
             bulletsLabel.text = "Disparos restantes: \(numberOfBullets)"
@@ -373,7 +471,6 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             let location = touch.locationInNode(cam)
-            
             if location.x > cam.frame.width / 2 {
                 for i in controles {
                     i.removeFromParent()
@@ -445,11 +542,139 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 playerCollides()
             }
         }
+        
+        if collision == Fisica.bullets | Fisica.object {
+            if contact.bodyA.node!.name == "disparo" {
+                let particles = SKEmitterNode(fileNamed: "Smoke")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyA.node?.removeFromParent()
+                contact.bodyB.node?.removeFromParent()
+                
+            }
+                
+            else {
+                let particles = SKEmitterNode(fileNamed: "Smoke")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyA.node?.removeFromParent()
+                contact.bodyB.node?.removeFromParent()
+                
+            }
+        }
+        
+        if collision == Fisica.bullets | Fisica.objectPowerUp {
+            if contact.bodyA.node!.name == "disparo" {
+                let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyA.node?.removeFromParent()
+                contact.bodyB.node?.removeFromParent()
+                
+                createPoints()
+                
+            }
+            else {
+                let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyA.node?.removeFromParent()
+                contact.bodyB.node?.removeFromParent()
+                
+                createPoints()
+
+            }
+            
+        }
+        
+        if collision == Fisica.player | Fisica.objectPowerUp {
+            if contact.bodyA.node!.name == "hero" {
+                print("BODY A HERO")
+                let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyB.node?.removeFromParent()
+                createPoints()
+
+            }
+            else {
+                print("BODY B HERO")
+                let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
+                particles.position = contact.bodyB.node!.position
+                particles.numParticlesToEmit = 20
+                addChild(particles)
+                
+                contact.bodyB.node?.removeFromParent()
+                createPoints()
+
+            }
+  
+        }
+        
+        if collision == Fisica.bullets | Fisica.labelOption {
+            if contact.bodyA.node!.name == "restart" {
+                restartButton.alpha = 0.4
+                
+                let transition = SKTransition.fadeWithDuration(1)
+                
+                let nextScene = GameScene2(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+            }
+            else if contact.bodyB.node!.name == "restart" {
+                restartButton.alpha = 0.4
+                
+                let transition = SKTransition.fadeWithDuration(1)
+                
+                let nextScene = GameScene2(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+            }
+                
+            else if contact.bodyA.node!.name == "menu" {
+                let transition = SKTransition.fadeWithDuration(1)
+                
+                let nextScene = MenuScene(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+            }
+                
+            else if contact.bodyB.node!.name == "menu" {
+                let transition = SKTransition.fadeWithDuration(1)
+                
+                let nextScene = MenuScene(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+                
+            }
+        }
     }
     
     func lost() {
         stopBackGroundMusic()
         alive = false
+        
+        viewController.add()
+        
+        numberOfBullets = 10000
         
         gameOver = SKLabelNode(fontNamed: "VCR OSD Mono")
         if espanol {
@@ -464,6 +689,20 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         gameOver.position = CGPoint(x: hero.position.x, y: hero.position.y + 50)
         addChild(gameOver)
         
+        diparaALaopcion = SKLabelNode(fontNamed: "VCR OSD Mono")
+        
+        if espanol {
+            diparaALaopcion.text = "(Dispara a la opción que quieres elegir)"
+        }
+        else {
+            diparaALaopcion.text = "(Shoot the option you want to choose)"
+        }
+        diparaALaopcion.horizontalAlignmentMode = .Center
+        diparaALaopcion.fontSize = 15
+        diparaALaopcion.zPosition = 5
+        diparaALaopcion.position = CGPoint(x: hero.position.x, y: hero.position.y + 25)
+        addChild(diparaALaopcion)
+        
         if espanol {
             restartButton = SKSpriteNode(imageNamed: "jugarDeNuevo")
         }
@@ -475,6 +714,16 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         restartButton.zPosition = 5
         restartButton.position = CGPoint(x: hero.position.x, y: hero.position.y - 60)
         restartButton.setScale(0.08)
+        
+        restartButton.physicsBody = SKPhysicsBody(rectangleOfSize: restartButton.size)
+        restartButton.physicsBody?.dynamic = true
+        restartButton.physicsBody?.affectedByGravity = false
+        
+        restartButton.physicsBody?.categoryBitMask    = Fisica.labelOption
+        restartButton.physicsBody?.contactTestBitMask = Fisica.bullets
+        restartButton.physicsBody?.collisionBitMask   = Fisica.none
+        
+        
         addChild(restartButton)
         
         menuButton = SKSpriteNode(imageNamed: "menu")
@@ -482,6 +731,16 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         menuButton.name = "menu"
         menuButton.position = CGPoint(x: hero.position.x, y: hero.position.y - 120)
         menuButton.setScale(0.08)
+        
+        menuButton.physicsBody = SKPhysicsBody(rectangleOfSize: menuButton.size)
+        menuButton.physicsBody?.dynamic = true
+        menuButton.physicsBody?.affectedByGravity = false
+        
+        menuButton.physicsBody?.categoryBitMask    = Fisica.labelOption
+        menuButton.physicsBody?.contactTestBitMask = Fisica.bullets
+        menuButton.physicsBody?.collisionBitMask   = Fisica.none
+        
+        
         addChild(menuButton)
     }
 }

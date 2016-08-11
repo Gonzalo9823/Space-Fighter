@@ -16,6 +16,7 @@ struct Fisica {
     static let object : UInt32 = 0b10           //00000011
     static let bullets : UInt32 = 0b100         //00000111
     static let objectPowerUp : UInt32 = 0b1000  //00001111
+    static let labelOption : UInt32 = 0b10000   //00011111
     
 }
 

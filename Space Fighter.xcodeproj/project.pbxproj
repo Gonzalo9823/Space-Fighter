@@ -15,6 +15,7 @@
 		EA51888F1D550EA800B85D14 /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51888E1D550EA800B85D14 /* GameScene2.swift */; };
 		EA5188931D555A5600B85D14 /* Stars.sks in Resources */ = {isa = PBXBuildFile; fileRef = EA5188921D555A5600B85D14 /* Stars.sks */; };
 		EA6C5CF31D52A326006E0894 /* EasyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6C5CF21D52A326006E0894 /* EasyViewController.swift */; };
+		EA9041581D5CFC46006C3549 /* SmokeCoin.sks in Resources */ = {isa = PBXBuildFile; fileRef = EA9041571D5CFC46006C3549 /* SmokeCoin.sks */; };
 		EAA873B21D3445ED00CCB8D5 /* powerUp.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EAA873B11D3445ED00CCB8D5 /* powerUp.mp3 */; };
 		EAB36ADE1D53A6B700E656D3 /* MediumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB36ADD1D53A6B700E656D3 /* MediumViewController.swift */; };
 		EAB36AE21D53A8AB00E656D3 /* HardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB36AE11D53A8AB00E656D3 /* HardViewController.swift */; };
@@ -52,6 +53,7 @@
 		EA51888E1D550EA800B85D14 /* GameScene2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
 		EA5188921D555A5600B85D14 /* Stars.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stars.sks; sourceTree = "<group>"; };
 		EA6C5CF21D52A326006E0894 /* EasyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyViewController.swift; sourceTree = "<group>"; };
+		EA9041571D5CFC46006C3549 /* SmokeCoin.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeCoin.sks; sourceTree = "<group>"; };
 		EAA873B11D3445ED00CCB8D5 /* powerUp.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = powerUp.mp3; sourceTree = "<group>"; };
 		EAB36ADD1D53A6B700E656D3 /* MediumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumViewController.swift; sourceTree = "<group>"; };
 		EAB36AE11D53A8AB00E656D3 /* HardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				EA5188921D555A5600B85D14 /* Stars.sks */,
 				EAE37D611D342E460062981B /* Fire.sks */,
 				EAE37D621D342E460062981B /* Smoke.sks */,
+				EA9041571D5CFC46006C3549 /* SmokeCoin.sks */,
 				EAE37D631D342E460062981B /* spark.png */,
 			);
 			name = Particles;
@@ -266,6 +269,7 @@
 				EAE37D641D342E460062981B /* Fire.sks in Resources */,
 				EAB36AE41D53CFF300E656D3 /* Juegoiphone.wav in Resources */,
 				EAE37D6F1D342E580062981B /* explsoion.mp3 in Resources */,
+				EA9041581D5CFC46006C3549 /* SmokeCoin.sks in Resources */,
 				EAE37D651D342E460062981B /* Smoke.sks in Resources */,
 				EA5188931D555A5600B85D14 /* Stars.sks in Resources */,
 				EAE37D681D342E4F0062981B /* Assets.xcassets in Resources */,
