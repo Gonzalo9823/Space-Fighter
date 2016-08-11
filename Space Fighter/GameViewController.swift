@@ -19,7 +19,7 @@ class GameViewController: UIViewController,GADInterstitialDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = GameScene2(size: view.frame.size)
+        let scene = MenuScene2(size: view.frame.size)
         // Configure the view.
         let skView = self.view as! SKView
         skView.showsFPS = false

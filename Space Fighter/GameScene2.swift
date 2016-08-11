@@ -26,7 +26,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     var cam = SKCameraNode()
     var disparo: SKSpriteNode!
     var viewController: GameViewController!
-    var numberOfBullets = 2
+    var numberOfBullets = 0
     var bulletsLabel: SKLabelNode!
     var preferredLanguages : NSLocale!
     var espanol = false
@@ -34,6 +34,8 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     var gameMusic: AVAudioPlayer!
     var compass: SKSpriteNode!
     var compassNeedle: SKSpriteNode!
+    var playMusic = false
+    var defaults = NSUserDefaults.standardUserDefaults()
     
     
     //Points Part
@@ -57,7 +59,6 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     let rightStars = SKEmitterNode(fileNamed: "Stars.sks")!
     let upperRightStars = SKEmitterNode(fileNamed: "Stars.sks")!
     let upperStars = SKEmitterNode(fileNamed: "Stars.sks")!
-    
     var estrellas = [SKEmitterNode]()
     
     
@@ -278,7 +279,12 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
-        playBackGroundMusic()
+        playMusic = defaults.boolForKey("Musica")
+        
+        if playMusic == false {
+            playBackGroundMusic()
+        }
+        
         
         physicsWorld.contactDelegate = self
         self.camera = cam
@@ -411,9 +417,14 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         runAction(repeat5Ever)
     }
     
-    func getCoinAngle() -> CGFloat  {
+    func getCoinAngle(alive : Bool) -> CGFloat  {
         let punto1 = CGVector(point: hero.position)
-        let punto2 = CGVector(point: coin.position)
+        var punto2 : CGVector!
+        if alive {
+            punto2 = CGVector(point: coin.position)
+        } else {
+            punto2 = CGVector(point: gameOver.position)
+        }
         
         let p = punto2 - punto1
         let angle = atan2(p.dy, p.dx) + CGFloat(M_PI)
@@ -449,21 +460,18 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: NSTimeInterval) {
         cam.position = hero.position
-        print(hero.position)
         
-        compassNeedle.zRotation = getCoinAngle() + CGFloat(M_PI)
+        compassNeedle.zRotation = getCoinAngle(alive) + CGFloat(M_PI)
         
         moveBackground()
         
-        
-        print(coin.position)
-        
         if espanol {
             bulletsLabel.text = "Disparos restantes: \(numberOfBullets)"
-            
+            pointLabel.text = "Puntos: \(points)"
         }
         else {
             bulletsLabel.text = "Bullets left: \(numberOfBullets)"
+            pointLabel.text = "Points: \(points)"
         }
         
     }
@@ -577,6 +585,8 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 contact.bodyA.node?.removeFromParent()
                 contact.bodyB.node?.removeFromParent()
                 
+                points += 1
+                numberOfBullets += 1
                 createPoints()
                 
             }
@@ -589,8 +599,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 contact.bodyA.node?.removeFromParent()
                 contact.bodyB.node?.removeFromParent()
                 
+                points += 1
+                numberOfBullets += 1
                 createPoints()
-
+                
             }
             
         }
@@ -604,8 +616,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 addChild(particles)
                 
                 contact.bodyB.node?.removeFromParent()
+                points += 1
+                numberOfBullets += 1
                 createPoints()
-
+                
             }
             else {
                 print("BODY B HERO")
@@ -615,10 +629,12 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 addChild(particles)
                 
                 contact.bodyB.node?.removeFromParent()
+                points += 1
+                numberOfBullets += 1
                 createPoints()
-
+                
             }
-  
+            
         }
         
         if collision == Fisica.bullets | Fisica.labelOption {
@@ -648,7 +664,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             else if contact.bodyA.node!.name == "menu" {
                 let transition = SKTransition.fadeWithDuration(1)
                 
-                let nextScene = MenuScene(size: scene!.size)
+                let nextScene = MenuScene2(size: scene!.size)
                 nextScene.scaleMode = .AspectFill
                 
                 scene?.view?.presentScene(nextScene, transition: transition)
@@ -658,7 +674,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             else if contact.bodyB.node!.name == "menu" {
                 let transition = SKTransition.fadeWithDuration(1)
                 
-                let nextScene = MenuScene(size: scene!.size)
+                let nextScene = MenuScene2(size: scene!.size)
                 nextScene.scaleMode = .AspectFill
                 
                 scene?.view?.presentScene(nextScene, transition: transition)
@@ -671,6 +687,11 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     func lost() {
         stopBackGroundMusic()
         alive = false
+        
+        for i in controles {
+            i.removeFromParent()
+        }
+        stopMoving()
         
         viewController.add()
         

@@ -59,7 +59,6 @@ class MenuScene: SKScene {
         }
         
         let scaleRatio = self.frame.width / 667
-        let scaleRatioPlus = self.frame.width / 736
         let scaleRatioIpad = self.frame.width / 768
         print(scaleRatioIpad)
         
@@ -74,11 +73,11 @@ class MenuScene: SKScene {
         start.name = "Game Button"
         start.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 60)
         start.setScale(0.1 * scaleRatio)
-        addChild(start)
+        //addChild(start)
         
         //Title
         title = SKSpriteNode(imageNamed: "title")
-        title.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 80)
+        title.position = CGPoint(x: self.frame.width / 2 * scaleRatio, y: self.frame.height / 2 + 140 * scaleRatio)
         title.setScale(0.3 * scaleRatio)
         addChild(title)
         
@@ -116,7 +115,7 @@ class MenuScene: SKScene {
             highScoreLabel.fontSize = (40 * scaleRatio)
         }
         highScoreLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 5)
-        addChild(highScoreLabel)
+        //addChild(highScoreLabel)
         
         //Ayuda
         
@@ -124,7 +123,7 @@ class MenuScene: SKScene {
         ayuda.name = "Ayuda"
         ayuda.position = CGPoint(x: self.frame.width / 2 + 60 , y: self.frame.height / 2 - 130)
         ayuda.setScale(0.2 * scaleRatio)
-        addChild(ayuda)
+        //addChild(ayuda)
         
         if espanol {
             imagenAyuda = SKSpriteNode(imageNamed: "ImagenAyudaEspanol")
@@ -140,7 +139,7 @@ class MenuScene: SKScene {
                 imagenAyuda.size = view.frame.size
             }
             imagenAyuda.alpha = 0
-            addChild(imagenAyuda)
+            //addChild(imagenAyuda)
         }
             
         else {
@@ -156,7 +155,7 @@ class MenuScene: SKScene {
                 imagenAyuda.size = view.frame.size
             }
             imagenAyuda.alpha = 0
-            addChild(imagenAyuda)
+            //addChild(imagenAyuda)
         }
         
         //Settings
@@ -165,8 +164,8 @@ class MenuScene: SKScene {
         settings.name = "Settings"
         settings.position = CGPoint(x: self.frame.width / 2 - 60 , y: self.frame.height / 2 - 130)
         settings.setScale(0.1 * scaleRatio)
-        addChild(settings)
-        
+        //addChild(settings)
+        let scaleRatioPlus = 2
         if scaleRatioPlus == 1 {
             settings.setScale(0.08)
         }
@@ -176,7 +175,7 @@ class MenuScene: SKScene {
         mundial.name = "Mundial"
         mundial.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - 130)
         mundial.setScale(0.2 * scaleRatio)
-        addChild(mundial)
+        //addChild(mundial)
         
         
     }

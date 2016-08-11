@@ -21,7 +21,8 @@ class Settings: SKScene {
     
     var viewController: GameViewController!
     var backButton: SKSpriteNode!
-    var musica : SKSpriteNode!
+    
+    var bestScoreLabel: SKLabelNode!
     
     var easy: SKSpriteNode!
     var medium: SKSpriteNode!
@@ -41,13 +42,18 @@ class Settings: SKScene {
     var currentDificulty: Dificulty = .Medium
     
     let defaults = NSUserDefaults.standardUserDefaults()
-    var playMusic = true
     
     var uploadBestScore: SKSpriteNode!
     
-    var botonSecreto : SKSpriteNode!
-    
+    var superScoreEasy: Int!
+    var superScore: Int!
+    var superScoreHard: Int!
+
     override func didMoveToView(view: SKView) {
+        
+        superScoreEasy = defaults.integerForKey("bestScoreEasy")
+        superScore = defaults.integerForKey("bestScore")
+        superScoreHard = defaults.integerForKey("bestScoreHard")
         
         let pre = NSLocale.preferredLanguages()[0]
         
@@ -61,10 +67,33 @@ class Settings: SKScene {
         
         let scaleRatio = self.frame.width / 667
         
-        botonSecreto = SKSpriteNode(color: UIColor(red:0.17, green:0.16, blue:0.18, alpha:1.0), size: CGSize(width: 40, height: 40))
-        botonSecreto.position = CGPoint(x: self.frame.width, y: self.frame.height)
-        botonSecreto.name = "Secreto"
-        addChild(botonSecreto)
+        bestScoreLabel = SKLabelNode(fontNamed: "VCR OSD Mono")
+        if espanol {
+            switch currentDificulty {
+            case .Easy:
+                bestScoreLabel.text = "Mejor puntaje en Fácil: \(superScoreEasy)"
+            case .Medium:
+                bestScoreLabel.text = "Mejor puntaje en Intermedio: \(superScore)"
+            case .Hard:
+                bestScoreLabel.text = "Mejor puntaje en Difícil: \(superScoreHard)"
+            }
+        }
+        else {
+            switch currentDificulty {
+            case .Easy:
+                bestScoreLabel.text = "Best score on Easy: \(superScoreEasy)"
+            case .Medium:
+                bestScoreLabel.text = "Best score on Medium: \(superScore)"
+            case .Hard:
+                bestScoreLabel.text = "Best score on Hard: \(superScoreHard)"
+            }
+        }
+        bestScoreLabel.horizontalAlignmentMode = .Center
+        bestScoreLabel.fontSize = 20
+        bestScoreLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 + 90)
+        addChild(bestScoreLabel)
+        
+        
 
         //Subir mejor puntaje
         if espanol {
@@ -73,7 +102,7 @@ class Settings: SKScene {
             uploadBestScore = SKSpriteNode(imageNamed: "uploadHighScore")
         }
         uploadBestScore.name = "Subir"
-        uploadBestScore.position = CGPoint(x: self.frame.width / 2 - (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
+        uploadBestScore.position = CGPoint(x: self.frame.width / 2  * scaleRatio, y: self.frame.height / 2 - (60 * scaleRatio))
         uploadBestScore.setScale(0.1 * scaleRatio)
         addChild(uploadBestScore)
         
@@ -191,25 +220,6 @@ class Settings: SKScene {
             }
         }
         
-        if defaults.boolForKey("Musica") {
-            musica = SKSpriteNode(imageNamed: "noMusic")
-            musica.name = "Music"
-            musica.position = CGPoint(x: self.frame.width / 2 + (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
-            musica.setScale(0.2 * scaleRatio)
-            addChild(musica)
-            
-        }
-            
-        else {
-            
-            musica = SKSpriteNode(imageNamed: "music")
-            musica.name = "Music"
-            musica.position = CGPoint(x: self.frame.width / 2 + (100 * scaleRatio), y: self.frame.height / 2 - (60 * scaleRatio))
-            musica.setScale(0.2 * scaleRatio)
-            addChild(musica)
-            
-        }
-        
         if espanol {
             salcat = SKLabelNode(fontNamed: "VCR OSD Mono")
             
@@ -241,7 +251,7 @@ class Settings: SKScene {
             if touchedNode.name == "Back" {
                 backButton.alpha = 0.4
                 let transition = SKTransition.fadeWithDuration(0.5)
-                let nextScene = MenuScene(size: scene!.size)
+                let nextScene = MenuScene2(size: scene!.size)
                 nextScene.scaleMode = .AspectFill
                 scene?.view?.presentScene(nextScene, transition: transition)
                 nextScene.viewController = viewController
@@ -253,20 +263,6 @@ class Settings: SKScene {
                 nextScene.scaleMode = .AspectFill
                 scene?.view?.presentScene(nextScene, transition: transition)
                 nextScene.viewController = viewController
-            }
-            else if touchedNode.name == "Music" {
-                
-                if defaults.boolForKey("Musica") {
-                    musica.texture = SKTexture(imageNamed: "music")
-                    defaults.setBool(false, forKey: "Musica")
-                    print("MUSIC")
-                }
-                    
-                else  {
-                    musica.texture = SKTexture(imageNamed: "noMusic")
-                    defaults.setBool(true, forKey: "Musica")
-                    print("NOMUSIC")
-                }
             }
                 
             else if touchedNode.name == "Subir" {
@@ -284,6 +280,7 @@ class Settings: SKScene {
                     currentDificulty = .Easy
                     print("Easy Pressed")
                     defaults.setObject("Easy", forKey: "Dificultad")
+                    bestScoreLabel.text = "Mejor puntaje en Fácil: \(superScoreEasy)"
                     
                     medium.texture = SKTexture(imageNamed: "Intermedio")
                     hard.texture = SKTexture(imageNamed: "Dificil")
@@ -294,6 +291,8 @@ class Settings: SKScene {
                     currentDificulty = .Medium
                     print("Medium Pressed")
                     defaults.setObject("Medium", forKey: "Dificultad")
+                    bestScoreLabel.text = "Mejor puntaje en Intermedio: \(superScore)"
+
                     
                     easy.texture = SKTexture(imageNamed: "Facil")
                     hard.texture = SKTexture(imageNamed: "Dificil")
@@ -304,6 +303,8 @@ class Settings: SKScene {
                     currentDificulty = .Hard
                     print("Hard Pressed")
                     defaults.setObject("Hard", forKey: "Dificultad")
+                    bestScoreLabel.text = "Mejor puntaje en Difícil: \(superScoreHard)"
+
                     
                     
                     easy.texture = SKTexture(imageNamed: "Facil")
@@ -317,6 +318,7 @@ class Settings: SKScene {
                     currentDificulty = .Easy
                     print("Easy Pressed")
                     defaults.setObject("Easy", forKey: "Dificultad")
+                    bestScoreLabel.text = "Best score on Easy: \(superScoreEasy)"
                     
                     medium.texture = SKTexture(imageNamed: "Medium")
                     hard.texture = SKTexture(imageNamed: "Hard")
@@ -327,6 +329,8 @@ class Settings: SKScene {
                     currentDificulty = .Medium
                     print("Medium Pressed")
                     defaults.setObject("Medium", forKey: "Dificultad")
+                    bestScoreLabel.text = "Best score on Medium: \(superScore)"
+
                     
                     easy.texture = SKTexture(imageNamed: "Easy")
                     hard.texture = SKTexture(imageNamed: "Hard")
@@ -337,6 +341,7 @@ class Settings: SKScene {
                     currentDificulty = .Hard
                     print("Hard Pressed")
                     defaults.setObject("Hard", forKey: "Dificultad")
+                    bestScoreLabel.text = "Best score on Hard: \(superScoreHard)"
                     
                     easy.texture = SKTexture(imageNamed: "Easy")
                     medium.texture = SKTexture(imageNamed: "Medium")

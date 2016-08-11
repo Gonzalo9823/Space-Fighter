@@ -306,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 else if (node.name == "menu") {
                     let transition = SKTransition.fadeWithDuration(1)
                     
-                    let nextScene = MenuScene(size: scene!.size)
+                    let nextScene = MenuScene2(size: scene!.size)
                     nextScene.scaleMode = .AspectFill
                     
                     scene?.view?.presentScene(nextScene, transition: transition)
