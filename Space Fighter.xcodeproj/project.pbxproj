@@ -10,6 +10,7 @@
 		A063E5CECEFF99E9286FE06B /* Pods_Space_Fighter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C9CC76B3688FD838947F33 /* Pods_Space_Fighter.framework */; };
 		EA095D221D52945F002C001A /* BestScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA095D211D52945F002C001A /* BestScoreViewController.swift */; };
 		EA2DBC8A1D4FDCC90066457A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2DBC891D4FDCC90066457A /* Settings.swift */; };
+		EA3919B41D5E4DC4001CAE9D /* SettingsGame2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3919B31D5E4DC4001CAE9D /* SettingsGame2.swift */; };
 		EA4F38B01D428B9E00E42D87 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA4F38AF1D428B9E00E42D87 /* GoogleMobileAds.framework */; };
 		EA4F38B41D429EC400E42D87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA4F38B31D429EC400E42D87 /* GoogleService-Info.plist */; };
 		EA51888F1D550EA800B85D14 /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51888E1D550EA800B85D14 /* GameScene2.swift */; };
@@ -48,6 +49,7 @@
 		5935CDFEA1E4BCF8C7F3CB0A /* Pods-Space Fighter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Space Fighter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Space Fighter/Pods-Space Fighter.release.xcconfig"; sourceTree = "<group>"; };
 		EA095D211D52945F002C001A /* BestScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BestScoreViewController.swift; sourceTree = "<group>"; };
 		EA2DBC891D4FDCC90066457A /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		EA3919B31D5E4DC4001CAE9D /* SettingsGame2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGame2.swift; sourceTree = "<group>"; };
 		EA4F38AF1D428B9E00E42D87 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../Downloads/GoogleMobileAdsSdkiOS-7.9.1 3/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 		EA4F38B11D429EB100E42D87 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA4F38B31D429EC400E42D87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -176,11 +178,12 @@
 			children = (
 				EAE37D591D342E230062981B /* AppDelegate.swift */,
 				EAE37D5D1D342E3E0062981B /* GameViewController.swift */,
-				EAE37D5C1D342E3E0062981B /* MenuScene.swift */,
-				EA9041591D5D1B9D006C3549 /* MenuScene2.swift */,
-				EA2DBC891D4FDCC90066457A /* Settings.swift */,
 				EAE37D5B1D342E3E0062981B /* GameScene.swift */,
+				EA2DBC891D4FDCC90066457A /* Settings.swift */,
+				EAE37D5C1D342E3E0062981B /* MenuScene.swift */,
 				EA51888E1D550EA800B85D14 /* GameScene2.swift */,
+				EA3919B31D5E4DC4001CAE9D /* SettingsGame2.swift */,
+				EA9041591D5D1B9D006C3549 /* MenuScene2.swift */,
 				EAC9618C1D5A572C00B51707 /* Extension.swift */,
 				EA51888D1D550B6200B85D14 /* HighScore */,
 				EAE37D751D342F070062981B /* LaunchScreen.storyboard */,
@@ -352,6 +355,7 @@
 				EA6C5CF31D52A326006E0894 /* EasyViewController.swift in Sources */,
 				EADF70DD1D5297DB00F41B16 /* SwiftPages.swift in Sources */,
 				EAE37D5A1D342E230062981B /* AppDelegate.swift in Sources */,
+				EA3919B41D5E4DC4001CAE9D /* SettingsGame2.swift in Sources */,
 				EAE37D721D342E580062981B /* MSButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

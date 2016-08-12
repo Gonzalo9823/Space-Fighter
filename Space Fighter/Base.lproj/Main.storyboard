@@ -163,9 +163,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsr-PK-JOk">
-                                <rect key="frame" x="20" y="70" width="50" height="30"/>
+                                <rect key="frame" x="20" y="70" width="81" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="hNO-oS-y39"/>
+                                    <constraint firstAttribute="width" constant="81" id="hNO-oS-y39"/>
                                     <constraint firstAttribute="height" constant="30" id="yRF-U3-fe5"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="VCROSDMono" family="VCR OSD Mono" pointSize="17"/>

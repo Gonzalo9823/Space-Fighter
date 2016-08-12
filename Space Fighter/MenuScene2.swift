@@ -29,12 +29,14 @@ class MenuScene2: SKScene {
     var preferredLanguages : NSLocale!
     var meteorsshower: SKSpriteNode!
     var settingsJuegoUno: SKSpriteNode!
+    var settingsJuegoDos: SKSpriteNode!
     var mundial: SKSpriteNode!
     var espanol = false
     var musicButton: SKSpriteNode!
     var playMusic = false
     let defaults = NSUserDefaults.standardUserDefaults()
     var ayuda: SKSpriteNode!
+    var ayudaJuegoDos: SKSpriteNode!
     
     override func didMoveToView(view: SKView) {
         
@@ -104,6 +106,28 @@ class MenuScene2: SKScene {
         meteorsshower.name = "JuegoDos"
         addChild(meteorsshower)
         
+        //Ayuda Juego Dos
+        
+        if espanol {
+            ayudaJuegoDos = SKSpriteNode(imageNamed: "tutorialGame2Espanol")
+        } else {
+            ayudaJuegoDos = SKSpriteNode(imageNamed: "tutorialGame2English")
+        }
+        ayudaJuegoDos.name = "Ayuda Juego Dos"
+        ayudaJuegoDos.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        ayudaJuegoDos.size = CGSize(width: self.frame.width, height: self.frame.height)
+        ayudaJuegoDos.alpha = 0
+        ayudaJuegoDos.zPosition = 5
+        addChild(ayudaJuegoDos)
+        
+        //Settings Juego Dos
+        
+        settingsJuegoDos = SKSpriteNode(imageNamed: "Settings")
+        settingsJuegoDos.position = CGPoint(x: self.frame.width / 2 + (160 * scaleRatio), y: self.frame.height / 2 - (115 * scaleRatio))
+        settingsJuegoDos.setScale(0.1 * scaleRatio)
+        settingsJuegoDos.name = "Settings Juego Dos"
+        addChild(settingsJuegoDos)
+        
         //Musica
         if playMusic == false {
             musicButton = SKSpriteNode(imageNamed: "music")
@@ -159,6 +183,12 @@ class MenuScene2: SKScene {
             }
                 
             else if touchedNode.name == "JuegoDos" {
+                let mostrar = SKAction.fadeInWithDuration(0.4)
+                ayudaJuegoDos.runAction(mostrar)
+            }
+            
+            else if touchedNode.name == "Ayuda Juego Dos" {
+                
                 meteorsshower.alpha = 0.4
                 
                 let transition = SKTransition.fadeWithDuration(1)
@@ -178,6 +208,20 @@ class MenuScene2: SKScene {
                 let transition = SKTransition.fadeWithDuration(1)
                 
                 let nextScene = Settings(size: scene!.size)
+                nextScene.scaleMode = .AspectFill
+                
+                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+                
+                scene?.view?.presentScene(nextScene, transition: transition)
+                nextScene.viewController = viewController
+            }
+                
+            else if touchedNode.name == "Settings Juego Dos" {
+                settingsJuegoDos.alpha = 0.4
+                
+                let transition = SKTransition.fadeWithDuration(1)
+                
+                let nextScene = SettingsGame2(size: scene!.size)
                 nextScene.scaleMode = .AspectFill
                 
                 UIApplication.sharedApplication().applicationIconBadgeNumber = 0

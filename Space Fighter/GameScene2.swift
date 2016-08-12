@@ -439,6 +439,12 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             disparo.position = hero.position
             disparo.zRotation = hero.zRotation
             disparo.name = "disparo"
+            let fireSFX = SKAction.playSoundFileNamed("fireSound", waitForCompletion: false)
+            
+            if playMusic == false {
+                self.runAction(fireSFX)
+            }
+            
             addChild(disparo)
             
             disparo.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 3, height: 9))
@@ -523,6 +529,9 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
+        
+        let explosion = SKAction.playSoundFileNamed("explsoion", waitForCompletion: false)
+        
         let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         if collision == Fisica.player | Fisica.object {
@@ -533,6 +542,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 particles.position = contact.bodyA.node!.position
                 particles.numParticlesToEmit = 20
                 addChild(particles)
+                
+                if playMusic == false {
+                    self.runAction(explosion)
+                }
                 
                 contact.bodyA.node!.removeFromParent()
                 playerCollides()
@@ -546,6 +559,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 particles.numParticlesToEmit = 20
                 addChild(particles)
                 
+                if playMusic == false {
+                    self.runAction(explosion)
+                }
+                
                 contact.bodyB.node!.removeFromParent()
                 playerCollides()
             }
@@ -558,6 +575,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 particles.numParticlesToEmit = 20
                 addChild(particles)
                 
+                if playMusic == false {
+                    self.runAction(explosion)
+                }
+                
                 contact.bodyA.node?.removeFromParent()
                 contact.bodyB.node?.removeFromParent()
                 
@@ -568,6 +589,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 particles.position = contact.bodyB.node!.position
                 particles.numParticlesToEmit = 20
                 addChild(particles)
+                
+                if playMusic == false {
+                    self.runAction(explosion)
+                }
                 
                 contact.bodyA.node?.removeFromParent()
                 contact.bodyB.node?.removeFromParent()
@@ -696,6 +721,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         viewController.add()
         
         numberOfBullets = 10000
+        coin.removeFromParent()
         
         gameOver = SKLabelNode(fontNamed: "VCR OSD Mono")
         if espanol {
