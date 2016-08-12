@@ -34,6 +34,7 @@ class MenuScene2: SKScene {
     var musicButton: SKSpriteNode!
     var playMusic = false
     let defaults = NSUserDefaults.standardUserDefaults()
+    var ayuda: SKSpriteNode!
     
     override func didMoveToView(view: SKView) {
         
@@ -118,6 +119,17 @@ class MenuScene2: SKScene {
             musicButton.setScale(0.15 * scaleRatio)
             addChild(musicButton)
         }
+        if espanol {
+            ayuda = SKSpriteNode(imageNamed: "imagenAyuda")
+        } else {
+            ayuda = SKSpriteNode(imageNamed: "ImagenAyudaEspanol")
+        }
+        ayuda.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        ayuda.size = CGSize(width: self.frame.width, height: self.frame.height)
+        ayuda.zPosition = 4
+        ayuda.name = "imagenAyuda"
+        ayuda.alpha = 0
+        addChild(ayuda)
         
     }
     
@@ -128,6 +140,11 @@ class MenuScene2: SKScene {
             let touchedNode = nodeAtPoint(location)
             
             if touchedNode.name == "JuegoUno" {
+                let mostrar = SKAction.fadeInWithDuration(0.4)
+                ayuda.runAction(mostrar)
+            }
+                
+            else if touchedNode.name == "imagenAyuda" {
                 protectTheShip.alpha = 0.4
                 
                 let transition = SKTransition.fadeWithDuration(1)
