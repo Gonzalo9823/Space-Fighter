@@ -133,20 +133,22 @@ class MenuScene2: SKScene {
             musicButton = SKSpriteNode(imageNamed: "music")
             musicButton.name = "Musica"
             musicButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - (130 * scaleRatio))
-            musicButton.setScale(0.15 * scaleRatio)
+            //musicButton.setScale(0.15 * scaleRatio)
+            musicButton.size = CGSize(width: 47.4 * scaleRatio, height: 47.4 * scaleRatio)
             addChild(musicButton)
         }
         else {
             musicButton = SKSpriteNode(imageNamed: "noMusic")
             musicButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 - (130 * scaleRatio))
             musicButton.name = "Musica"
-            musicButton.setScale(0.15 * scaleRatio)
+            //musicButton.setScale(0.15 * scaleRatio)
+            musicButton.size = CGSize(width: 47.4 * scaleRatio, height: 47.4 * scaleRatio)
             addChild(musicButton)
         }
         if espanol {
-            ayuda = SKSpriteNode(imageNamed: "imagenAyuda")
-        } else {
             ayuda = SKSpriteNode(imageNamed: "ImagenAyudaEspanol")
+        } else {
+            ayuda = SKSpriteNode(imageNamed: "ImagenAyuda")
         }
         ayuda.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         ayuda.size = CGSize(width: self.frame.width, height: self.frame.height)

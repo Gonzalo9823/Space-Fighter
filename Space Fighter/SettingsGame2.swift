@@ -26,6 +26,9 @@ class SettingsGame2: SKScene {
     var backButton: SKSpriteNode!
     var preferredLanguages : NSLocale!
     var espanol = false
+    var mejorPuntajeLabel: SKLabelNode!
+    var mejorPuntaje = 0
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     override func didMoveToView(view: SKView) {
     
@@ -37,12 +40,21 @@ class SettingsGame2: SKScene {
             espanol = true
         }
         
+        mejorPuntaje = defaults.integerForKey("MejorPuntajeJuegoDos")
+        
         if espanol {
             backButton = SKSpriteNode(imageNamed: "Atras")
             backButton.name = "Back"
             backButton.position = CGPoint(x: self.frame.width / 2 - (280 * scaleRatio), y: self.frame.height / 2 + (160 * scaleRatio))
             backButton.setScale(0.15 * scaleRatio)
             addChild(backButton)
+            
+            mejorPuntajeLabel = SKLabelNode(fontNamed: "VCR OSD Mono")
+            mejorPuntajeLabel.text = "Mejor Puntaje: \(mejorPuntaje)"
+            mejorPuntajeLabel.horizontalAlignmentMode = .Center
+            mejorPuntajeLabel.fontSize = 30
+            mejorPuntajeLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+            addChild(mejorPuntajeLabel)
         }
         else {
             backButton = SKSpriteNode(imageNamed: "Back")
@@ -50,6 +62,13 @@ class SettingsGame2: SKScene {
             backButton.position = CGPoint(x: self.frame.width / 2 - (280 * scaleRatio), y: self.frame.height / 2 + (160 * scaleRatio))
             backButton.setScale(0.15 * scaleRatio)
             addChild(backButton)
+            
+            mejorPuntajeLabel = SKLabelNode(fontNamed: "VCR OSD Mono")
+            mejorPuntajeLabel.text = "High Score: \(mejorPuntaje)"
+            mejorPuntajeLabel.horizontalAlignmentMode = .Center
+            mejorPuntajeLabel.fontSize = 30
+            mejorPuntajeLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+            addChild(mejorPuntajeLabel)
         }
     }
     

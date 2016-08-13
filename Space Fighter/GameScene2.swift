@@ -36,6 +36,12 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     var compassNeedle: SKSpriteNode!
     var playMusic = false
     var defaults = NSUserDefaults.standardUserDefaults()
+    var bestScoreGameTwo = 0
+    
+    //Stuff
+    var velocityOfMeteor: CGFloat = 80
+    var rateOfCreationOfMeteor = 0.6
+    var disparos = [SKSpriteNode]()
     
     
     //Points Part
@@ -116,6 +122,19 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func destroyShootOutsideTheScreen() {
+        if disparos[0].position.x > self.frame.width || disparos[0].position.x < 0 {
+            disparos[0].removeFromParent()
+            print("Eliminado")
+        }
+            
+        else if disparos[0].position.y > self.frame.height || disparos[0].position.y < 0  {
+            disparos[0].removeFromParent()
+            print("Eliminado")
+        }
+    }
+
+    
     func playerCollides() {
         switch numberOfLifes {
         case 3:
@@ -168,7 +187,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             dy /= magnitude
             
             // Create a vector in the direction of the bird
-            let vector = CGVectorMake(100*dx, 100*dy)
+            let vector = CGVectorMake(velocityOfMeteor * dx, velocityOfMeteor * dy)
             
             // Apply impulse
             meteor.physicsBody?.applyImpulse(vector)
@@ -205,12 +224,12 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         addChild(coin)
     }
     
-    func getX(number : CGFloat) -> CGFloat {
+    func getXForCoins(number : CGFloat) -> CGFloat {
         
         return cos(number) * hero.position.x + CGFloat.random(-600, 600) * CGFloat(points + 2)
     }
     
-    func getY(number : CGFloat) -> CGFloat {
+    func getYForCoins(number : CGFloat) -> CGFloat {
         
         return sin(number) * hero.position.y + CGFloat.random(-600, 600) * CGFloat(points + 2)
     }
@@ -220,8 +239,8 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         let degrees = GKRandomSource.sharedRandom().nextIntWithUpperBound(361)
         let radiants = Double(degrees) * M_PI / 180
         
-        let x = getX(CGFloat(radiants))
-        let y = getY(CGFloat(radiants))
+        let x = getXForCoins(CGFloat(radiants))
+        let y = getYForCoins(CGFloat(radiants))
         
         return CGPoint(x: x, y: y)
     }
@@ -280,6 +299,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         
         playMusic = defaults.boolForKey("Musica")
+        bestScoreGameTwo = defaults.integerForKey("MejorPuntajeJuegoDos")
         
         if playMusic == false {
             playBackGroundMusic()
@@ -400,16 +420,14 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         var randomDoubleForX : CGFloat!
         var randomDoubleForY : CGFloat!
         
-        
         let crear = SKAction.runBlock {
             
             randomDoubleForX = CGFloat.random(-736, 736)
             randomDoubleForY = CGFloat.random(-414.0, 414.0)
-            
-            self.createMetor(CGPoint(x: self.hero.position.x + randomDoubleForX , y: self.hero.position.y + randomDoubleForY))
+            self.createMetor(CGPoint(x: self.hero.position.x + randomDoubleForX * 2 , y: self.hero.position.y + randomDoubleForY * 2))
         }
         
-        let wait = SKAction.waitForDuration(0.8)
+        let wait = SKAction.waitForDuration(rateOfCreationOfMeteor)
         
         let seq = SKAction.sequence([wait,crear])
         
@@ -444,7 +462,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             if playMusic == false {
                 self.runAction(fireSFX)
             }
-            
+            disparos.append(disparo)
             addChild(disparo)
             
             disparo.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 3, height: 9))
@@ -470,6 +488,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         compassNeedle.zRotation = getCoinAngle(alive) + CGFloat(M_PI)
         
         moveBackground()
+        if disparos.count > 0 {
+            destroyShootOutsideTheScreen()
+        }
+
         
         if espanol {
             bulletsLabel.text = "Disparos restantes: \(numberOfBullets)"
@@ -612,6 +634,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 
                 points += 1
                 numberOfBullets += 1
+                velocityOfMeteor += 10
                 createPoints()
                 
             }
@@ -626,6 +649,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 
                 points += 1
                 numberOfBullets += 1
+                velocityOfMeteor += 10
                 createPoints()
                 
             }
@@ -634,7 +658,6 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         
         if collision == Fisica.player | Fisica.objectPowerUp {
             if contact.bodyA.node!.name == "hero" {
-                print("BODY A HERO")
                 let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
                 particles.position = contact.bodyB.node!.position
                 particles.numParticlesToEmit = 20
@@ -643,11 +666,11 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 contact.bodyB.node?.removeFromParent()
                 points += 1
                 numberOfBullets += 1
+                velocityOfMeteor += 10
                 createPoints()
                 
             }
             else {
-                print("BODY B HERO")
                 let particles = SKEmitterNode(fileNamed: "SmokeCoin")!
                 particles.position = contact.bodyB.node!.position
                 particles.numParticlesToEmit = 20
@@ -656,6 +679,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
                 contact.bodyB.node?.removeFromParent()
                 points += 1
                 numberOfBullets += 1
+                velocityOfMeteor += 10
                 createPoints()
                 
             }
@@ -717,6 +741,10 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
             i.removeFromParent()
         }
         stopMoving()
+        
+        if points > bestScoreGameTwo {
+            defaults.setInteger(points, forKey: "MejorPuntajeJuegoDos")
+        }
         
         viewController.add()
         
